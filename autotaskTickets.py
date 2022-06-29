@@ -14,7 +14,7 @@ def createTicket(autotaskAuthObj, ticketInformation):
         status
         Returns a dictionary with the resulting api status code as \"status_code\' and \'text\' as \'message\'."""
 
-    create_ticket_request = requests.request("POST", f"{autotaskAuthObj.url}/Tickets", headers=autotaskAuthObj.headers, data=ticketInformation)
+    create_ticket_request = requests.request("POST", f"{autotaskAuthObj.baseurl}/Tickets", headers=autotaskAuthObj.headers, data=ticketInformation)
 
     return {"status_code": create_ticket_request.status_code, "message": create_ticket_request.text}
 
@@ -26,6 +26,6 @@ def attachToTicket(autotaskAuthObj, ticketnumber, encodedattachment):
         "data": encodedattachment
     }
 
-    attachment_request = requests.request("POST", f"{autotaskAuthObj.url}/Tickets/{ticketnumber}/Attachments", headers=autotaskAuthObj.headers, data=payload)
+    attachment_request = requests.request("POST", f"{autotaskAuthObj.baseurl}/Tickets/{ticketnumber}/Attachments", headers=autotaskAuthObj.headers, data=payload)
 
     return {"status_code": attachment_request.status_code, "message": attachment_request.text}
