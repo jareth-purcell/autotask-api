@@ -22,10 +22,19 @@ def attachToTicket(autotaskAuthObj, ticketnumber, encodedattachment):
 
     """ Uploads an attachment to the specified ticket. """
 
-    payload = {
-        "data": encodedattachment
-    }
+    payload = json.dumps({
+        "data": f"{encodedattachment}",
+        "fullPath": "bean.PNG",
+        "publish": 1,
+        "title": "King of England",
+        "attachmentType": "FILE_ATTACHMENT"
+    })
+
+    request_headers = autotaskAuthObj.headers
+    request_headers['Content-Type'] = "application/json"
 
     attachment_request = requests.request("POST", f"{autotaskAuthObj.baseurl}/Tickets/{ticketnumber}/Attachments", headers=autotaskAuthObj.headers, data=payload)
+
+    del request_headers['Content-Type']
 
     return {"status_code": attachment_request.status_code, "message": attachment_request.text}
