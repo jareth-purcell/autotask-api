@@ -18,17 +18,16 @@ def createTicket(autotaskAuthObj, ticketInformation):
 
     return {"status_code": create_ticket_request.status_code, "message": create_ticket_request.text}
 
-def attachToTicket(autotaskAuthObj, ticketnumber, encodedattachment):
+def attachToTicket(autotaskAuthObj, ticketnumber, attachmentdict):
 
-    """ Uploads an attachment to the specified ticket. """
+    """ Uploads an attachment to the specified ticket. The attachmentjson parameter is dictionary with the following keys:
+        data      - base64 encoded file
+        fullpath  - name of file as it will appear in AutoTask
+        publish   - always should be set to 1
+        title     - description of uploaded file
+        attachmentType - should always be set to FILE_ATTACHMENT"""
 
-    payload = json.dumps({
-        "data": f"{encodedattachment}",
-        "fullPath": "bean.PNG",
-        "publish": 1,
-        "title": "King of England",
-        "attachmentType": "FILE_ATTACHMENT"
-    })
+    payload = json.dumps(attachmentdict)
 
     request_headers = autotaskAuthObj.headers
     request_headers['Content-Type'] = "application/json"
